@@ -1,10 +1,10 @@
 import numpy as np
-from tensorflow.keras.datasets import fashion_mnist  # type: ignore
+from tensorflow.keras.datasets import mnist # type: ignore
 from DenseLayer import DenseLayer
 from NeuralNetwork import NeuralNetwork
 from ReLU import ReLU
 from Softmax import Softmax
-from CrossEntropyLoss import CrossEntropyLoss
+from src.CrossEntropyLoss import CrossEntropyLoss
 
 # Function to one-hot encode the labels
 def one_hot_encode(y, num_classes):
@@ -26,12 +26,11 @@ def evaluate_accuracy(network, X_test, y_test):
     accuracy = np.mean(predictions == y_test)
     return accuracy
 
+# Main function to organize the neural network training and evaluation
 def main():
-    # Load Fashion MNIST data
-    (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
-
-    # Normalize the pixel values (scale to [0, 1])
-    X_train = X_train / 255.0
+    # Load MNIST data
+    (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    X_train = X_train / 255.0  # Normalize
     X_test = X_test / 255.0
 
     # Reshape the training and test data to 1D vectors of 784 features (28*28 pixels)
@@ -44,26 +43,24 @@ def main():
     # Create a neural network
     nn = NeuralNetwork()
 
-    # Add layers (keep the architecture as is)
-    nn.add_layer(DenseLayer(784, 256))  # Input layer (784 input features) to hidden layer
-    nn.add_layer(ReLU())                # ReLU activation for hidden layer
-    nn.add_layer(DenseLayer(256, 128))  # Second hidden layer
-    nn.add_layer(ReLU())   
-    nn.add_layer(DenseLayer(128, 64))
-    nn.add_layer(ReLU())             # ReLU activation
-    nn.add_layer(DenseLayer(64, 10))   # Output layer (10 classes)
-    nn.add_layer(Softmax())             # Softmax activation for output
+    # Add layers
+    nn.add_layer(DenseLayer(784, 256))  # Input layer (784 input features for MNIST) to hidden layer
+    nn.add_layer(ReLU()) # ReLU activation for hidden layer
+    nn.add_layer(DenseLayer(256, 128))
+    nn.add_layer(ReLU())  
+    nn.add_layer(DenseLayer(128, 10))  # Hidden layer to output layer (10 classes)
+    nn.add_layer(Softmax())  # Softmax activation for the output layer
 
     # Set loss function to Cross Entropy
     nn.set_loss(CrossEntropyLoss())
 
-    # Train the model on Fashion MNIST
+    # Train the model
     nn.train(X_train, y_train_encoded, epochs=100)
 
-    # Test the model and print the accuracy
+    # Test the model and print accuracy
     accuracy = evaluate_accuracy(nn, X_test, y_test)
-    print(f'Test accuracy on Fashion MNIST: {accuracy * 100:.2f}%')
-    
+    print(f'Test accuracy: {accuracy * 100:.2f}%')
+
 # The entry point of the program
 if __name__ == "__main__":
     main()
