@@ -56,7 +56,7 @@ def main():
     nn.set_loss(CrossEntropyLoss())
 
     # Train the model
-    nn.train(X_train, y_train_encoded, epochs=5)
+    nn.train(X_train, y_train_encoded, epochs=100)
 
     # Test the model and print accuracy
     accuracy = evaluate_accuracy(nn, X_test, y_test)
