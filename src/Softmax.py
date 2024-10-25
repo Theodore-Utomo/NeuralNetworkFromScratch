@@ -7,5 +7,4 @@ class Softmax:
         return self.output
 
     def backward(self, d_output):
-        # Not commonly used in this form, handled with cross-entropy
         return d_output

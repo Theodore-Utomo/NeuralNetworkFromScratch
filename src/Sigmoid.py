@@ -6,4 +6,4 @@ class Sigmoid:
         return self.output
     
     def backward(self, d_output):
-        return d_output * (self.output * (1 - self.output))  # Sigmoid derivative
+        return d_output * (self.output * (1 - self.output)) 

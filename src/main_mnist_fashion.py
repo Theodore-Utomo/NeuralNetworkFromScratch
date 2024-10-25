@@ -17,12 +17,10 @@ def predict(network, X_test):
     predictions = network.forward(X_test)
     return np.argmax(predictions, axis=1)
 
-# Function to evaluate accuracy of the model
 def evaluate_accuracy(network, X_test, y_test):
-    # Get predictions from the model
     predictions = predict(network, X_test)
     
-    # Calculate accuracy by comparing predictions to true labels
+    # Calculate accuracy
     accuracy = np.mean(predictions == y_test)
     return accuracy
 
@@ -38,32 +36,28 @@ def main():
     X_train = X_train.reshape(X_train.shape[0], -1)
     X_test = X_test.reshape(X_test.shape[0], -1)
 
-    # One-hot encode the labels for training
+    # One-hot encode training labels
     y_train_encoded = one_hot_encode(y_train, 10)
 
-    # Create a neural network
     nn = NeuralNetwork()
 
-    # Add layers (keep the architecture as is)
+    # Add layers
     nn.add_layer(DenseLayer(784, 256))  # Input layer (784 input features) to hidden layer
-    nn.add_layer(ReLU())                # ReLU activation for hidden layer
-    nn.add_layer(DenseLayer(256, 128))  # Second hidden layer
+    nn.add_layer(ReLU())                
+    nn.add_layer(DenseLayer(256, 128))  
     nn.add_layer(ReLU())   
     nn.add_layer(DenseLayer(128, 64))
-    nn.add_layer(ReLU())             # ReLU activation
+    nn.add_layer(ReLU())             
     nn.add_layer(DenseLayer(64, 10))   # Output layer (10 classes)
     nn.add_layer(Softmax())             # Softmax activation for output
 
-    # Set loss function to Cross Entropy
+    # Loss function = Cross Entropy
     nn.set_loss(CrossEntropyLoss())
 
-    # Train the model on Fashion MNIST
     nn.train(X_train, y_train_encoded, epochs=100)
 
-    # Test the model and print the accuracy
     accuracy = evaluate_accuracy(nn, X_test, y_test)
     print(f'Test accuracy on Fashion MNIST: {accuracy * 100:.2f}%')
     
-# The entry point of the program
 if __name__ == "__main__":
     main()

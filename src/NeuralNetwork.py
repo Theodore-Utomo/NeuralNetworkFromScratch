@@ -14,15 +14,13 @@ class NeuralNetwork:
         self.loss = loss
 
     def forward(self, X):
-        # Forward pass through all layers
         for layer in self.layers:
             X = layer.forward(X)
         return X
 
     def backward(self, d_output):
-        # Backward pass through all layers
         for layer in reversed(self.layers):
-            # Check if the layer has a learning rate parameter (i.e., it's a DenseLayer)
+            # Check if layer is dense layer
             if isinstance(layer, DenseLayer):
                 d_output = layer.backward(d_output, self.learning_rate)
             else:
@@ -32,7 +30,7 @@ class NeuralNetwork:
         num_samples = X_train.shape[0]
         for epoch in range(epochs):
             for i in range(0, num_samples, batch_size):
-                # Get mini-batch
+                # Mini-batch
                 X_batch = X_train[i:i+batch_size]
                 y_batch = y_train[i:i+batch_size]
                 
