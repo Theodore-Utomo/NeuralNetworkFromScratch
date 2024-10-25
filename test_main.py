@@ -5,7 +5,7 @@ from DenseLayer import DenseLayer
 from ReLU import ReLU
 from Softmax import Softmax
 from CrossEntropyLoss import CrossEntropyLoss
-from main import one_hot_encode, predict, evaluate_accuracy
+from main_mnist_digit import one_hot_encode, predict, evaluate_accuracy
 
 class TestNeuralNetwork(unittest.TestCase):
     
